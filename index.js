@@ -1,4 +1,18 @@
 const path = require("path");
+const fs = require("fs");
+
+if(!fs.existsSync(path.join(__dirname, "fonts"))) {
+	fs.mkdirSync(path.join(__dirname, "fonts"));
+	fs.mkdirSync(path.join(__dirname, "fonts/default"));
+
+	var src = path.join(__dirname, "node_modules/font-awesome/fonts");
+	var dst = path.join(__dirname, "fonts/default");
+	var fontFiles = fs.readdirSync(src);
+
+	for(var i = 0, ii = fontFiles.length; i < ii; i++) {
+		fs.symlinkSync(path.join(src, fontFiles[i]), path.join(dst, fontFiles[i]));
+	}
+}
 
 module.exports = {
 	"root": path.join(__dirname, "fonts"),
