@@ -1,0 +1,39 @@
+{
+  "Author": "Konrad Mohrfeldt <konrad.mohrfeldt@farbdev.org> (http://konradmohrfeldt.farbdev.org)",
+  "name": "connect-fonts-fontawesome",
+  "description": "FontAwesome font pack for connect-fonts",
+  "keywords": [
+    "font",
+    "font-face",
+    "CSS",
+    "connect-fonts",
+    "fontawesome",
+    "fontawesome-webfont"
+  ],
+  "homepage": "https://github.com/kmohrf/connect-fonts-fontawesome",
+  "licenses": [
+    {
+      "covers": "software",
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kmohrf/connect-fonts-fontawesome"
+  },
+  "version": "0.0.1",
+  "engines": {
+    "node": ">= 0.4.7"
+  },
+  "main": "index",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/kmohrf/connect-fonts-fontawesome/issues"
+  },
+  "_id": "connect-fonts-fontawesome@0.0.1",
+  "_from": "connect-fonts-fontawesome@",
+  "dependencies": {
+    "font-awesome": "~4.0.3"
+  }
+}
