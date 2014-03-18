@@ -1,16 +1,41 @@
 const path = require("path");
 const fs = require("fs");
 
+var src = path.join(__dirname, "node_modules/font-awesome/fonts");
+var dst = path.join(__dirname, "fonts/default");
+
+var fontPkgSrc = path.join(__dirname, "node_modules/font-awesome", "package.json");
+var fontPkgDst = path.join(__dirname, "fonts", "package.json");
+
+function copyFontFiles() {
+	var fontFiles = fs.readdirSync(src);
+	for(var i = 0, ii = fontFiles.length; i < ii; i++) {
+		fs.createReadStream(path.join(src, fontFiles[i])).pipe(fs.createWriteStream(path.join(dst, fontFiles[i])));
+	}
+
+	// We copy the package.json from font-awesome. This way we can compare versions to automatically update fonts when needed.
+	fs.createReadStream(fontPkgSrc).pipe(fs.createWriteStream(fontPkgDst));
+}
+
 if(!fs.existsSync(path.join(__dirname, "fonts"))) {
+	// fonts subdir doesn’t exists, create it and copy files.
 	fs.mkdirSync(path.join(__dirname, "fonts"));
 	fs.mkdirSync(path.join(__dirname, "fonts/default"));
 
-	var src = path.join(__dirname, "node_modules/font-awesome/fonts");
-	var dst = path.join(__dirname, "fonts/default");
-	var fontFiles = fs.readdirSync(src);
+	copyFontFiles();
+} else {
+	// fonts subdir exists, compare versions of fonts & update if needed
+	var fontPkgSrcVersion = require(fontPkgSrc).version;
 
-	for(var i = 0, ii = fontFiles.length; i < ii; i++) {
-		fs.symlinkSync(path.join(src, fontFiles[i]), path.join(dst, fontFiles[i]));
+	try {
+		var fontPkgDstVersion = require(fontPkgDst).version;
+
+		if(fontPkgSrcVersion !== fontPkgDstVersion) {
+			copyFontFiles();
+		}
+	} catch(e) {
+		// Cannot find fontPkgDst, copy files
+		copyFontFiles();
 	}
 }
 
